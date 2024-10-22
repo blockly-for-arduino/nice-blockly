@@ -1,8 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
-
-export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
-};
+export const APP = {
+    name: "B4A",
+    website: "https://b4a.clz.me",
+    updateUrl: "https://b4a.clz.me/update.json",
+    boardUrl: "https://b4a.clz.me/boards.json",
+    libraryUrl: "https://b4a.clz.me/libraries.json",
+    exampleUrl: "https://b4a.clz.me/examples.json",
+}

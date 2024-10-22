@@ -1,13 +1,247 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { ElectronService, SerialService, UpdateService } from './core/services';
+// import { TranslateService } from '@ngx-translate/core';
+import { APP_CONFIG } from '../environments/environment';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ArduinoCliService } from './core/services/arduino-cli.service';
+import { BlocklyService } from './blockly/blockly.service';
+import { ConfigService } from './core/services/config.service';
+import { BlocklyComponent } from './blockly/blockly.component';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'nice-blockly';
+
+  @ViewChild(BlocklyComponent) blocklyComponent;
+
+  code: string = '';
+
+  get boardList() {
+    return this.configService.boardList
+  }
+
+  get serialList() {
+    return this.serialService.serialList
+  }
+
+  serialSelected = '';
+  boardSelected = '';
+
+  libManagerWidth;
+
+
+  get newVersion() {
+    return this.updateService.newVersion
+  }
+
+  get progress() {
+    return this.updateService.progress.percent
+  }
+
+  get percent() {
+    return this.updateService.percent
+  }
+
+  get isDownloading() {
+    return this.updateService.isDownloading
+  }
+
+
+  constructor(
+    private electronService: ElectronService,
+    // private translate: TranslateService,
+    private configService: ConfigService,
+    private blocklyService: BlocklyService,
+    private arduinoCli: ArduinoCliService,
+    private modal: NzModalService,
+    private serialService: SerialService,
+    private updateService: UpdateService,
+    private cd: ChangeDetectorRef
+  ) {
+    // this.translate.setDefaultLang('en');
+    // console.log('APP_CONFIG', APP_CONFIG);
+
+    if (electronService.isElectron) {
+      // console.log(process.env);
+      // console.log('Run in electron');
+      // console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
+      // console.log('NodeJS childProcess', this.electronService.childProcess);
+    } else {
+      // console.log('Run in browser');
+    }
+  }
+
+  ngOnInit(): void {
+    this.checkGuide();
+    this.configService.init();
+    this.blocklyService.loaded.subscribe(state => {
+      if (state) {
+        // setTimeout(() => {
+        //   let el: any = document.querySelector('.blocklyToolboxDiv')
+        //   this.libManagerWidth = el.offsetWidth;
+        // }, 100);
+      }
+    })
+    this.configService.loaded.subscribe(state => {
+      if (state) {
+        this.checkGuide();
+        if (this.configService.boardList.length == 0) this.showGuide = true
+        this.serialSelected = this.configService.config.serial;
+        if (this.configService.config.board != null)
+          this.boardSelected = this.configService.config.board.name;
+      }
+    })
+    setTimeout(() => {
+      // this.updateService.init()
+      setTimeout(() => {
+        this.cd.detectChanges()
+      }, 3000);
+    }, 3000);
+  }
+
+  showGuide = false;
+  checkGuide() {
+    if (localStorage.getItem('guide') == null) {
+      this.showGuide = true
+      return
+    }
+    if (this.configService.boardList.length == 0) {
+      this.showGuide = true
+      return
+    }
+    this.showGuide = false
+  }
+
+
+  ngAfterViewInit(): void {
+    this.getSerialPortList();
+  }
+
+  codeChange(code) {
+    this.code = code
+  }
+
+  newFile() {
+    this.modal.confirm({
+      nzTitle: '新建工程',
+      nzContent: '当前工程未保存，您确定要放弃该工程，并新建？',
+      nzOnOk: () =>
+        this.blocklyComponent.loadDefaultData()
+    })
+  }
+
+  saveFile() {
+    this.electronService.saveFile(this.blocklyComponent.getJson())
+  }
+
+  openFile() {
+    this.electronService.openFile().then(fileContent => {
+      let json = JSON.parse(fileContent)
+      this.blocklyComponent.loadJson(json);
+    })
+  }
+
+  boardChange(e) {
+    this.configService.selectBoard(e);
+    setTimeout(() => {
+      this.blocklyComponent.reinit();
+    }, 1000);
+  }
+
+  serialChange(e) {
+    this.configService.selectSerial(e)
+  }
+
+  async getSerialPortList() {
+    await this.serialService.getSerialPortList()
+  }
+
+  showSider = false;
+  mode = ''
+  action = ''
+  openSider(mode, action = '') {
+    if (this.mode == mode && this.action == action) {
+      this.closeSider()
+    } else if (this.showSider) {
+      this.closeSider()
+      setTimeout(() => {
+        this.mode = mode
+        this.action = action
+        this.showSider = true
+        if (mode == 'shell') {
+          //  action == 'build' ? this.arduinoCli.build(this.code) : this.arduinoCli.upload(this.code)
+        }
+
+      }, 310);
+    } else {
+      this.mode = mode
+      this.action = action
+      this.showSider = true
+      if (mode == 'shell') {
+        // action == 'build' ? this.arduinoCli.build(this.code) : this.arduinoCli.upload(this.code)
+      }
+
+    }
+  }
+
+  willClose = false
+  closeSider() {
+    this.willClose = true;
+    setTimeout(() => {
+      this.willClose = false
+      this.showSider = false
+      this.showManager = false
+      this.mode = ''
+      this.action = ''
+    }, 300);
+  }
+
+  openCloud() {
+    // this.modal.create({
+    //   nzTitle: '云资源',
+    //   nzContent: CloudComponent,
+    //   nzWidth: '60vw',
+    //   nzFooter: null
+    // })
+  }
+
+  gotoGithub() {
+    this.electronService.openUrl("https://github.com/coloz/b4a");
+  }
+
+  gotoWebsite() {
+    this.electronService.openUrl("https://b4a.clz.me");
+  }
+
+  showManager = false
+  selectedTab = 0
+  openManager(e) {
+    this.selectedTab = e
+    this.showManager = true
+  }
+
+  skipVersion = false;
+  skipUpdate() {
+    this.skipVersion = true
+  }
+
+  downloadUpdate() {
+    this.updateService.download()
+    setInterval(() => {
+      this.cd.detectChanges();
+    }, 1000)
+  }
+
+  installUpdate() {
+    this.updateService.install()
+  }
+
+  openAI() {
+
+  }
+
 }

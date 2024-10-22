@@ -29,10 +29,32 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              "src/favicon.ico",
+              "src/assets",
+              "src/core",
+              {
+                "glob": "**/*",
+                "input": "modules",
+                "output": "/modules"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/blockly/media",
+                "output": "./media/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor/min/vs",
+                "output": "/assets/vs/"
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "node_modules/loaders.css/loaders.min.css",
+              "node_modules/ng-zorro-antd/code-editor/style/index.css"
             ],
             "scripts": []
           },
@@ -98,5 +120,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

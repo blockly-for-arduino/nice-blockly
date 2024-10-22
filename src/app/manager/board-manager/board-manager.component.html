@@ -1,0 +1,91 @@
+<div class="lib-manager-box">
+    <div class="left-box animate__animated animate__fadeInLeft animate__faster">
+        <div class="table-header">
+            <div>已安装</div>
+            <div class="version">核心</div>
+        </div>
+        <div class="lib-list" #boardListBox>
+            <ng-container *ngFor="let boardName of boardList">
+                <div class="item" data-id="{{boardName}}">
+                    <div class="kk"></div>
+                    <div class="name">{{boardName}}</div>
+                    <div class="version">{{boardDict[boardName].core}}</div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="left-bottom">
+            <a nz-button nzType="link" (click)="openBoardFolder()"><i nz-icon nzType="folder" nzTheme="outline"></i>B4A开发板目录</a>
+            <a nz-button nzType="link" (click)="openCoreFolder()"><i nz-icon nzType="folder" nzTheme="outline"></i>Arduino核心目录</a>
+        </div>
+    </div>
+    <div class="right-box animate__animated animate__fadeInRight animate__faster">
+        <div class="search-box">
+            <!-- <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="搜索" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+            </ng-template> -->
+            <nz-radio-group [(ngModel)]="viewMode" nzButtonStyle="solid" (ngModelChange)="viewModeChange()">
+                <label nz-radio-button nzValue="1">按厂家</label>
+                <label nz-radio-button nzValue="2">按核心</label>
+            </nz-radio-group>
+        </div>
+        <div class="cloud-board-list">
+            <ng-container *ngIf="viewMode=='1'">
+                <div class="vender-box" *ngFor="let vender of venderList">
+                    <div class="vender">
+                        <div class="img-box">
+                            <img src="https://b4a.clz.me/assets/vender/{{vender.name}}.png" alt="">
+                        </div>
+                        <div class="text vender-bg">{{vender.name}}</div>
+                    </div>
+                    <div class="board-list">
+                        <div class="board" [ngClass]="{'installed': isInstalled(board_cloud.name)}"
+                            *ngFor="let board_cloud of vender.boards">
+                            <img src="https://b4a.clz.me/assets/board/{{board_cloud.img}}" alt="{{board_cloud.img}}" />
+                            <div class="text">{{board_cloud.name}}</div>
+                            <button nz-button nzType="primary" nzSize="small" *ngIf="!isInstalled(board_cloud.name)"
+                                (click)="installBoard(board_cloud)">
+                                安装
+                            </button>
+                            <button nz-button nzType="primary" nzSize="small" *ngIf="isInstalled(board_cloud.name)"
+                                (click)="uninstallBoard(board_cloud)">
+                                移除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="viewMode=='2'">
+                <div class="vender-box" *ngFor="let vender of coreList">
+                    <div class="vender">
+                        <div class="img-box">
+                            <img src="https://b4a.clz.me/assets/core/{{vender.name}}.png" alt="{{vender.name}}" />
+                        </div>
+                        <div class="text vender-bg">{{vender.name}}</div>
+                    </div>
+                    <div class="board-list">
+                        <div class="board" [ngClass]="{'installed': isInstalled(board_cloud.name)}"
+                            *ngFor="let board_cloud of vender.boards">
+                            <img src="https://b4a.clz.me/assets/board/{{board_cloud.img}}" alt="{{board_cloud.img}}" />
+                            <div class="text">{{board_cloud.name}}</div>
+                            <button nz-button nzType="primary" nzSize="small" *ngIf="!isInstalled(board_cloud.name)"
+                                (click)="installBoard(board_cloud)">
+                                安装
+                            </button>
+                            <button nz-button nzType="primary" nzSize="small" *ngIf="isInstalled(board_cloud.name)"
+                                (click)="uninstallBoard(board_cloud)">
+                                移除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- 搜索模式 -->
+            <ng-container *ngIf="viewMode=='0'">
+
+            </ng-container>
+        </div>
+    </div>
+</div>

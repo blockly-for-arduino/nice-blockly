@@ -1,0 +1,18 @@
+:host {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+
+.code-box {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+
+    nz-code-editor {
+        height: 100%;
+        width: 100%;
+    }
+}

@@ -1,0 +1,131 @@
+@import "../lib-manager/lib-manager.component.scss";
+
+.left-box {
+    width: 380px;
+
+    .name {
+        margin-left: 5px;
+    }
+
+    .version {
+        right: 0px !important;
+        width: auto !important;
+    }
+}
+
+.right-box {
+    width: calc(100% - 395px);
+
+    .cloud-board-list {
+        height: calc(100% - 50px);
+        overflow-y: scroll;
+    }
+}
+
+.vender-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #CCC;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+
+    .vender {
+        width: 120px;
+        height: 120px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 30px;
+        border-right: 1px solid #CCC;
+        padding-right: 15px;
+
+        .img-box {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+            img {
+                width: 75%;
+            }
+        }
+
+        .text {
+            position: absolute;
+            // height: 35px;
+            bottom: -5px;
+            font-weight: 700;
+        }
+
+        .vender-bg {
+            background: rgba(255, 255, 255, 0.7);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .board-list {
+        display: flex;
+
+        .board {
+            width: 120px;
+            height: 120px;
+            margin-right: 15px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s;
+            position: relative;
+
+            &.installed {
+                img {
+                    filter: grayscale(0);
+                    opacity: 1;
+                }
+            }
+
+            &:hover {
+                button {
+                    visibility: visible !important;
+                }
+            }
+
+            img {
+                width: 120px;
+                height: 120px;
+                filter: grayscale(1);
+                opacity: 0.6;
+            }
+
+            .text {
+                position: absolute;
+                bottom: -5px;
+            }
+
+            button {
+                visibility: hidden;
+                position: absolute;
+                top: 45%;
+            }
+        }
+    }
+}
+
+.left-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    height: 36px;
+    width: 100%;
+}

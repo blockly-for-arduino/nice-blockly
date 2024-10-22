@@ -1,0 +1,24 @@
+<header>
+    <div>
+        <button class="back" nz-button nzSize="large" (click)="back()">
+            <i nz-icon nzType="left-circle" nzTheme="outline"></i>
+        </button>
+        <button nz-button nzSize="large" [ngClass]="{active: selectedTab==0}" (click)="selectedTab=0">
+            <i class="fal fa-books"></i>
+            <div class="text">库管理</div>
+        </button>
+        <button nz-button nzSize="large" [ngClass]="{active: selectedTab==1}" (click)="selectedTab=1">
+            <i class="fal fa-microchip"></i>
+            <div class="text">开发板管理</div>
+        </button>
+        <button nz-button nzSize="large" [ngClass]="{active: selectedTab==2}" (click)="selectedTab=2">
+            <i class="fal fa-tools"></i>
+            <div class="text">软件设置</div>
+        </button>
+    </div>
+</header>
+<div class="content-box">
+    <app-lib-manager *ngIf="selectedTab==0"></app-lib-manager>
+    <app-board-manager *ngIf="selectedTab==1"></app-board-manager>
+    <app-setting-manager *ngIf="selectedTab==2"></app-setting-manager>
+</div>
