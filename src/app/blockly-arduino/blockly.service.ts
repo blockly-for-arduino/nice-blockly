@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { LibInfo } from '../core/interfaces';
 import { compareList } from '../func/func';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CustomCategory } from './customCategory';
+import { CustomCategory } from './blockly-rewrite';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +60,6 @@ export class BlocklyService {
       CustomCategory, true);
     // 初始化blockly
     this.workspace = Blockly.inject('blocklyDiv', {
-      // @ts-ignore
       readOnly: false,
       media: 'media/',
       trashcan: true,
@@ -79,11 +78,6 @@ export class BlocklyService {
         minScale: 0.5,
         scaleSpeed: 1.05,
         pinch: true
-      },
-      toolbox: {
-        "kind": "categoryToolbox",
-        "contents": [
-        ]
       }
     });
 
@@ -101,8 +95,6 @@ export class BlocklyService {
     await this.loadLibs()
 
     Blockly.defineBlocksWithJsonArray(this.blockList);
-
-    console.log(this.toolbox);
 
     if (typeof this.workspace != 'undefined') {
       if (this.workspace.getToolbox() != null)

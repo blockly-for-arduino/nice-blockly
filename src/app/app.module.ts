@@ -40,6 +40,8 @@ import { GuideComponent } from './guide/guide.component';
 
 // 引入全部的图标，不推荐 ❌
 import * as AllIcons from '@ant-design/icons-angular/icons';
+import { BlocklyComponent } from './blockly/blockly.component';
+import { NiceBlocklyComponent } from './blockly-arduino/blockly.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -78,7 +80,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NzToolTipModule,
     ManagerModule,
     NzMessageModule,
-    NzProgressModule
+    NzProgressModule,
+    NiceBlocklyComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

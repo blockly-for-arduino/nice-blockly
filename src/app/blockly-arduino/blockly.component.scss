@@ -1,0 +1,72 @@
+:host {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#blocklyDiv {
+    height: 100%;
+    width: 100%;
+
+    ::ng-deep {
+        .blocklyToolboxDiv {
+            // width: 155px;
+        }
+        .blocklyToolboxCategory {
+            .blocklyTreeRow {
+                height: 32px;
+                display: flex;
+                align-items: center;
+
+                .blocklyTreeRowContentContainer {
+                    display: flex;
+                    align-items: center;
+
+                    i {
+                        width: 22px;
+                        margin: 3px 5px 0 5px;
+                        font-size: 18px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        &.fa-code-branch {
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+
+                &.blocklyTreeSelected {
+                    i {
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.code-zone {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+
+    >div {
+        position: relative;
+        flex-grow: 1;
+
+        textarea {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+::ng-deep {
+    .toolbox-sep {
+        margin: 5px 0;
+    }
+}

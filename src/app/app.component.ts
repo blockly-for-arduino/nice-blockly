@@ -16,7 +16,7 @@ import { ViewChild } from '@angular/core';
 })
 export class AppComponent {
 
-  @ViewChild(BlocklyComponent) blocklyComponent;
+  // @ViewChild(BlocklyComponent) blocklyComponent;
 
   code: string = '';
 
@@ -129,26 +129,27 @@ export class AppComponent {
     this.modal.confirm({
       nzTitle: '新建工程',
       nzContent: '当前工程未保存，您确定要放弃该工程，并新建？',
-      nzOnOk: () =>
-        this.blocklyComponent.loadDefaultData()
+      nzOnOk: () => {
+        // this.blocklyComponent.loadDefaultData()
+      }
     })
   }
 
   saveFile() {
-    this.electronService.saveFile(this.blocklyComponent.getJson())
+    // this.electronService.saveFile(this.blocklyComponent.getJson())
   }
 
   openFile() {
     this.electronService.openFile().then(fileContent => {
       let json = JSON.parse(fileContent)
-      this.blocklyComponent.loadJson(json);
+      // this.blocklyComponent.loadJson(json);
     })
   }
 
   boardChange(e) {
     this.configService.selectBoard(e);
     setTimeout(() => {
-      this.blocklyComponent.reinit();
+      // this.blocklyComponent.reinit();
     }, 1000);
   }
 

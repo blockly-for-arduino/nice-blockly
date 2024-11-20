@@ -32,7 +32,6 @@ export class SettingManagerComponent implements OnInit {
   ngAfterViewInit(): void {
     // let version = this.electronService.package.version;
     let version = '0.0.0';
-    // @ts-ignore
     document.getElementById('version').innerText = version;
   }
 

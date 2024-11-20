@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 import * as Blockly from 'blockly/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -15,6 +15,8 @@ import { initArduinoGenerator } from './generator/arduino';
   styleUrls: ['./blockly.component.scss']
 })
 export class BlocklyComponent implements OnInit {
+
+  // @ViewChild('blocklyDiv') blocklyDiv: any;
 
   code: string;
   generator: Blockly.Generator;
